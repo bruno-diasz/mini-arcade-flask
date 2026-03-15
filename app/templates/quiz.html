@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Animais</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white text-center">
+                        <h2>🐶 Quiz de Animais</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if message %}
+                            <div class="alert alert-info">{{ message }}</div>
+                            {% if not finished %}
+                                <a href="/quiz" class="btn btn-primary">Próxima Pergunta</a>
+                            {% endif %}
+                        {% elif finished %}
+                            <h3>Quiz Finalizado!</h3>
+                            <p>Você acertou {{ score }} de {{ total }} perguntas.</p>
+                            <a href="/quiz/reset" class="btn btn-success">Jogar Novamente</a>
+                        {% else %}
+                            <h4>{{ question.text }}</h4>
+                            <form method="post">
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="answer" value="A" id="A" required>
+                                        <label class="form-check-label" for="A">
+                                            A) {{ question.option_a }}
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="answer" value="B" id="B">
+                                        <label class="form-check-label" for="B">
+                                            B) {{ question.option_b }}
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="answer" value="C" id="C">
+                                        <label class="form-check-label" for="C">
+                                            C) {{ question.option_c }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-info">Responder</button>
+                            </form>
+                        {% endif %}
+                        <br>
+                        <a href="/" class="btn btn-secondary">Voltar ao Início</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
