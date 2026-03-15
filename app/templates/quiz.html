@@ -23,7 +23,7 @@
                         {% elif finished %}
                             <h3>Quiz Finalizado!</h3>
                             <p>Você acertou {{ score }} de {{ total }} perguntas.</p>
-                            <a href="/quiz/reset" class="btn btn-success">Jogar Novamente</a>
+                            <a href="/quiz/reset" class="btn btn-success mb-3">Jogar Novamente</a>
                         {% else %}
                             <h4>{{ question.text }}</h4>
                             <form method="post">

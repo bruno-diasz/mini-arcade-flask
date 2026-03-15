@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from .models import db, Question
 from .services import NumberGuessingGame, DrawingChallenge, QuizGame
 
 main = Blueprint('main', __name__)
 
-# Initialize game services
 number_game = NumberGuessingGame()
 drawing_challenge = DrawingChallenge()
 
@@ -12,29 +11,32 @@ drawing_challenge = DrawingChallenge()
 def index():
     return render_template('index.html')
 
-# Number Guessing Game Routes
 @main.route('/guess', methods=['GET', 'POST'])
 def guess():
     if request.method == 'POST':
         guess_value = request.form.get('guess')
         message = number_game.guess(guess_value)
         correct = "Parabéns" in message
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'message': message, 'correct': correct})
+        
         return render_template('guess.html', message=message, correct=correct)
     return render_template('guess.html')
 
 @main.route('/guess/reset')
 def guess_reset():
     number_game.reset()
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'status': 'reset'})
     return redirect(url_for('main.guess'))
 
-# Quiz Game Routes
 @main.route('/quiz', methods=['GET', 'POST'])
 def quiz():
     questions = Question.query.all()
     if not questions:
         return render_template('quiz.html', message="Nenhuma pergunta cadastrada ainda.", finished=False)
 
-    # Initialize quiz in session if not exists
     if 'quiz_game' not in session:
         quiz_game = QuizGame(questions)
         session['quiz_game'] = {
@@ -53,7 +55,6 @@ def quiz():
         answer = request.form.get('answer')
         message = quiz_game.answer_question(answer)
 
-        # Update session
         session['quiz_game'] = {
             'current_index': quiz_game.current_index,
             'score': quiz_game.score,
@@ -80,13 +81,11 @@ def quiz_reset():
     session.pop('quiz_game', None)
     return redirect(url_for('main.quiz'))
 
-# Drawing Challenge Routes
 @main.route('/draw')
 def draw():
     challenge = drawing_challenge.get_random_challenge()
     return render_template('draw.html', challenge=challenge)
 
-# Admin Routes
 @main.route('/admin')
 def admin():
     return render_template('admin.html')

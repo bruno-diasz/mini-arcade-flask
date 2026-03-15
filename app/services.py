@@ -30,16 +30,16 @@ class NumberGuessingGame:
 class DrawingChallenge:
     def __init__(self):
         self.challenges = [
-            "🎨 Desenhe um robô",
-            "🎨 Desenhe um gato astronauta",
-            "🎨 Desenhe uma casa mágica",
-            "🎨 Desenhe um dragão colorido",
-            "🎨 Desenhe um super-herói",
-            "🎨 Desenhe uma floresta encantada",
-            "🎨 Desenhe um castelo no céu",
-            "🎨 Desenhe animais da fazenda",
-            "🎨 Desenhe seu animal favorito",
-            "🎨 Desenhe uma nave espacial"
+            "Desenhe um robô",
+            "Desenhe um gato astronauta",
+            "Desenhe uma casa mágica",
+            "Desenhe um dragão colorido",
+            "Desenhe um super-herói",
+            "Desenhe uma floresta encantada",
+            "Desenhe um castelo no céu",
+            "Desenhe animais da fazenda",
+            "Desenhe seu animal favorito",
+            "Desenhe uma nave espacial"
         ]
 
     def get_random_challenge(self):
